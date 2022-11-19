@@ -1,0 +1,76 @@
+{% extends 'base.html'%}
+{% load static %}
+
+   {% block title %}
+    <title>JBerry | card</title>
+
+   {% endblock title %}
+{% block body %}
+             <div class="cart-table-area ">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <div class="cart-title mt-50">
+                            <h2>Order Summary</h2>
+                        </div>
+
+                        <div class="cart-table clearfix">
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Qty</th>
+                                        <th></th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in Order %}
+                                    <tr>
+                                        <td class="cart_product_img">
+                                            <a href="#"><img src="{{item.cartitem.pid.image.url}}" alt="Product"></a>
+                                        </td>
+                                        <td class="cart_product_desc">
+                                            <h5>{{item.cartitem.pid.title}}</h5>
+                                        </td>
+                                        <td class="price">
+                                            <span>BDT{{item.cartitem.price}}</span>
+                                        </td>
+                                        <td class="price">
+                                            <span>{{item.cartitem.qty}}</span>
+                                        </td>
+
+                                        <td class="status">
+                                            <div class="cart-btn" style="transform: scale(.6)">
+                                            <a href="#" class="btn amado-btn w-50">{{item.status}}</a>
+                                            </div>
+                                        </td>
+                                        <td class="Cancel">
+                                            <div class="cart-btn" style="transform: scale(.6)">
+                                            <a href="{% url 'cancelmyorder' item.oid%}" class="btn amado-btn w-50">Cancel</a>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+         </div>
+
+
+
+
+    <!-- ##### Main Content Wrapper End ##### -->
+
+{% endblock body %}
+
+

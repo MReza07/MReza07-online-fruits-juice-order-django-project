@@ -1,0 +1,175 @@
+{% extends 'base.html'%}
+{% load static %}
+
+   {% block title %}
+    <title>JBerry | Home</title>
+
+   {% endblock title %}
+    {% block body %}
+        <div class="products-catagories-area clearfix">
+            <div class="amado-pro-catagory clearfix">
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="shop.html">
+                        <img src="{% static 'img/bg-img/1.jpg' %}" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From $180</p>
+                            <h4>Modern Chair</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="shop.html">
+                        <img src="{% static 'img/bg-img/2.jpg' %}" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From $180</p>
+                            <h4>Minimalistic Plant Pot</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="shop.html">
+                        <img src="{% static 'img/bg-img/2.jpg' %}" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From $180</p>
+                            <h4>Modern Chair</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="shop.html">
+                        <img src="{% static 'img/bg-img/3.jpg' %}" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From $180</p>
+                            <h4>Night Stand</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="shop.html">
+                        <img src="{% static 'img/bg-img/3.jpg' %}" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From $18</p>
+                            <h4>Plant Pot</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="shop.html">
+                        <img src="{% static 'img/bg-img/3.jpg' %}" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From $180</p>
+                            <h4>Night Stand</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="shop.html">
+                        <img src="{% static 'img/bg-img/2.jpg' %}" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From $18</p>
+                            <h4>Plant Pot</h4>
+                        </div>
+                    </a>
+                </div>
+<!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="shop.html">
+                        <img src="{% static 'img/bg-img/2.jpg' %}" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From $18</p>
+                            <h4>Plant Pot</h4>
+                        </div>
+                    </a>
+                </div>
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="shop.html">
+                        <img src="{% static 'img/bg-img/2.jpg' %}" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From $18</p>
+                            <h4>Plant Pot</h4>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <!-- Product Catagories Area End -->
+
+{% endblock body %}
+
+def index(request):
+    title = 'this is reza'
+    items = product.objects.all()
+    categories = {item.category.title() for item in items}
+    if request.session.get('user', None):
+        user = request.user
+
+        return render(request, 'index.html', context={
+            'user': user,
+            'cart_count': request.session.get('cart_count')
+        })
+
+    return render(request, 'index.html', context={
+        'items': items,
+        'categories': categories
+    })
+Review:
+def review_show(request, pid):
+    url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+        try:
+            uid = request.session.get('user')
+            user = User.objects.get(id=uid)
+            Product = product.objects.get(pid=pid)
+            reviews = review_rating.objects.get(uid=user, pid=Product)
+            form = ReviewForm(request.POST, instance=reviews)
+            form.save()
+            print(form)
+            messages.success(request, 'Thank you! Your review has been updated.')
+            return redirect(url)
+        except:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                data = review_rating()
+                data.title = form.cleaned_data['title']
+                print(data)
+                data.rate = form.cleaned_data['rate']
+                data.review = form.cleaned_data['review']
+                data.pid_id = pid
+                data.uid_id = request.user.id
+                data.save()
+
+                return redirect(url)

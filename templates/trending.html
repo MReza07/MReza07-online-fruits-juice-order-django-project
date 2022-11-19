@@ -1,0 +1,88 @@
+{% extends 'base.html'%}
+{% block title %}
+<title>Jberry | trending</title>
+{% endblock title %}
+{% block body %}
+<div class="shop_sidebar_area">
+
+            <!-- ##### Single Widget ##### -->
+            <div class="widget catagory mb-50">
+                <!-- Widget Title -->
+                <h6 class="widget-title mb-30">Fruit Catagories</h6>
+
+                <!--  Catagories  -->
+                <div class="catagories-menu">
+                    <ul>
+                        {% for category in categories%}
+                        <li><a href="{% url 'filterByCategory' category%}">{{ category.title}}</a></li>
+                        {% endfor%}</ul>
+                </div>
+            </div>
+            </div>
+
+
+<div class="amado_product_area section-padding-100">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product-topbar d-xl-flex align-items-end justify-content-between">
+                            <!-- Total Products -->
+                            <div class="total-products">
+                                <div class="view d-flex">
+                                    <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                                </div>
+                           
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% for item in items %}
+
+                    <!-- Single Product Area -->
+                    <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+                        <a href="{% url 'get_product' item.pid %}">
+                        <div class="single-product-wrapper">
+                            <!-- Product Image -->
+                            <div class="product-img">
+                                <img src="{{ item.image.url}}" alt="">
+                                <!-- Hover Thumb -->
+                                <img class="hover-img" src="{{ item.image.url}}" alt="">
+                            </div>
+
+                            <!-- Product Description -->
+                            <div class="product-description d-flex align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                    <div class="line"></div>
+                                   <h2 style="font-size: 20px;">Product Name: {{item.title}}</h2>
+                                <div class="line"></div>
+                                <h4 class="product-price">BDT {{item.discounted_price}}
+                                <small class="text-decoration-line-through">{{item.price}}</small></h4><br>
+
+                                        <h6>{{item.title}}</h6>
+
+                                    <p class="product-description"> Studies on Juice Quality (NRCS, Hyderabad)
+Sweet sorghum genotypes show wide variability in juice quality and juice extractability (Bala Ravi et al., 1997). Evaluation of 160 sweet sorghum genotypes for juice extractability at physiological maturity using a two-discharge roller mill indicated variability from 14% to 68%. </p>
+                                    </a>
+                                </div>
+                                <!-- Cart -->
+                                <div class="ratings-cart text-right">
+                                    <div class="cart">
+                                        <a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   {% endfor %}
+                    </div>
+                </div>
+              </div>
+
+
+
+{% endblock body %}
